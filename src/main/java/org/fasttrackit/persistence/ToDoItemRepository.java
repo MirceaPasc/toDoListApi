@@ -29,7 +29,7 @@ public class ToDoItemRepository {
     public List<ToDoItem> getToDoItems() throws SQLException, IOException, ClassNotFoundException {
         try (Connection connection = DatabaseConfiguration.getConnection()) {
 
-            String query = "SELECT id , description , done FROM to_do_items ORDER BY deadline DESC;";
+            String query = "SELECT id , description , deadline, done FROM to_do_items ORDER BY deadline DESC;";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
