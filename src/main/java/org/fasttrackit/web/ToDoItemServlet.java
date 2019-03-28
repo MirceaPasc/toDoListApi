@@ -35,7 +35,7 @@ public class ToDoItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        long id = Long.parseLong(req.getParameter("id"));
+       // long id = Long.parseLong(req.getParameter("id"));
         setAccessControlHeaders(resp);
         try {
             List<ToDoItem> toDoItems = toDoItemService.getToDoItems();
@@ -53,7 +53,23 @@ public class ToDoItemServlet extends HttpServlet {
             resp.sendError(500, "There was an error processing your request. " + e.getMessage());
         }
     }
-        // for preflight requests
+
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        setAccessControlHeaders(resp);
+
+        String id = req.getParameter("id");
+
+        try {
+            toDoItemService.deleteToDoItem(Long.parseLong(id));
+        } catch (Exception e) {
+            resp.sendError(500, "There was an error processing your request. " + e.getMessage());
+        }
+
+    }
+
+    // for preflight requests
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -66,6 +82,8 @@ public class ToDoItemServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
     }
+
+
 
 }
 
